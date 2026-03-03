@@ -107,7 +107,7 @@ async function analyze() {
       robotsInfo.ok = robots.res.ok;
       robotsInfo.note = robots.res.ok ? `HTTP ${robots.res.status}. ${robots.text.slice(0, 120).replace(/\s+/g, ' ')}` : `HTTP ${robots.res.status}`;
     } catch {
-      robotsInfo.note = 'No se pudo leer robots.txt';
+      robotsInfo.note = 'No se pudo leer robots.txt, o esta mal escrito o no esta';
     }
 
     let sitemapInfo = { exists: false, count: 0, note: 'No encontrado' };
@@ -122,7 +122,7 @@ async function analyze() {
         sitemapInfo.note = `HTTP ${sitemap.res.status}`;
       }
     } catch {
-      sitemapInfo.note = 'No se pudo leer sitemap.xml';
+      sitemapInfo.note = 'No se pudo leer sitemap.xml, revisa que este bien escrito o con buen nombre';
     }
 
     let errorInfo = { controlled: false, note: 'No comprobado' };
@@ -132,7 +132,7 @@ async function analyze() {
       errorInfo.controlled = res.status === 404 || res.redirected;
       errorInfo.note = `HTTP ${res.status}${res.redirected ? ' con redirección' : ''}`;
     } catch {
-      errorInfo.note = 'No se pudo probar la URL inexistente';
+      errorInfo.note = 'No se pudo probar la URL inexistente, no te digo que tenga errores pero tampoco que no';
     }
 
     const hasMultiplePages = internalLinks.filter(u => {
@@ -209,6 +209,8 @@ async function analyze() {
         detail: bingVerification ? 'Meta msvalidate.01 detectada.' : 'No se ha detectado meta de Bing Webmaster Tools.'
       }
     };
+
+    //Si lees esto me robo tu suerte para mi examen teorico de mañana
 
     renderResults(payload, base.hostname);
     setStatus(`Análisis completado para ${base.hostname}.`);
